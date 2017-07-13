@@ -10,6 +10,7 @@ import getpass
 def generate(debugFlag):
     now = datetime.datetime.now()
 
+    print("### generateHeader.py")
     vMajor = '0'
     vMinor = '0'
     vPatch = '0'
@@ -38,12 +39,16 @@ def generate(debugFlag):
         retString = None
 
     if retString:
-        info = re.search("v(\d*).(\d*).(\d*)-(\d*)-(\w*)\\n", retString.decode("ascii")).groups()
-        vMajor = info[0]
-        vMinor = info[1]
-        vPatch = info[2]
-        vRevision = info[3]
-        vHash = info[4]
+        reMatch = re.search("v(\d*).(\d*).(\d*)-(\d*)-(\w*)\\n", retString.decode("ascii"))
+        if reMatch:
+            info = reMatch.groups()
+            vMajor = info[0]
+            vMinor = info[1]
+            vPatch = info[2]
+            vRevision = info[3]
+            vHash = info[4]
+        else:
+            print("    Detected git. No tag was found.")
     else:
         ######### SVN VERSION CONTROL
         try:
@@ -64,7 +69,6 @@ def generate(debugFlag):
             vMinor = info[1]
             vPatch = info[2]
 
-    print("### generateHeader.py")
     print("    Generated Header for v" + vMajor + "." + vMinor + "." + vPatch + "-" + vRevision + " " + vHash)
     FNULL.close()
     with open(str(sys.argv[2]), 'w') as f:

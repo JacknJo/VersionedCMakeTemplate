@@ -44,9 +44,7 @@ add_custom_command(TARGET ${PROJECT_NAME}
     POST_BUILD
     COMMAND mkdir -p lib/${ISSUE}
     COMMAND mkdir -p lib/${LOWERCASE_TYPE}
-    COMMAND unlink lib/${ISSUE}/$<TARGET_FILE_NAME:${PROJECT_NAME}> > /dev/null 2>&1 | true
-    COMMAND unlink lib/${LOWERCASE_TYPE}/$<TARGET_FILE_NAME:${PROJECT_NAME}> > /dev/null 2>&1 | true
-    COMMAND ln -s ../../build/${LOWERCASE_TYPE}/$<TARGET_FILE_NAME:${PROJECT_NAME}> lib/${ISSUE}
-    COMMAND ln -s ../../build/${LOWERCASE_TYPE}/$<TARGET_FILE_NAME:${PROJECT_NAME}> lib/${LOWERCASE_TYPE}
+    COMMAND unlink $<TARGET_FILE_NAME:${PROJECT_NAME}> > /dev/null 2>&1 | true
+    COMMAND ln -s ./build/${LOWERCASE_TYPE}/$<TARGET_FILE_NAME:${PROJECT_NAME}>
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
